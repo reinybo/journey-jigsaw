@@ -1,0 +1,10 @@
+{
+  "hosted-zone:account=723035846152:domainName=journey-jigsaw.com:region=us-west-2": {
+    "Id": "/hostedzone/Z06276972P7VEBVM43WRW",
+    "Name": "journey-jigsaw.com."
+  },
+  "hosted-zone:account=723035846152:domainName=journey-jigsaw.com:region=us-east-1": {
+    "Id": "/hostedzone/Z06276972P7VEBVM43WRW",
+    "Name": "journey-jigsaw.com."
+  }
+}
