@@ -1,5 +1,6 @@
 import { Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type Activity = {
   id: number;
@@ -11,6 +12,8 @@ type Activity = {
 };
 
 export default function CreateItinerary() {
+  const navigate = useNavigate();
+
   const [activities, setActivities] = useState<Activity[]>([]); // Array of activities for trip.
 
   const addActivityField = () => {
@@ -38,7 +41,18 @@ export default function CreateItinerary() {
   // Function to handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Send info to API later...
+
+    const itinerary = {
+      activities: activities,
+    };
+
+    try {
+      // Send info to API later...
+      console.log('Itinerary to be sent: ', itinerary);
+      navigate('/feed');
+    } catch (error) {
+      console.log('Error: ', error);
+    }
   };
 
   return (
