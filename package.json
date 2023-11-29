@@ -34,7 +34,7 @@
     "npm-check-updates": "^16.11.1",
     "nx": "16.0.0",
     "prettier": "^3.0.1",
-    "projen": "^0.72.10",
+    "projen": "^0.71.92",
     "syncpack": "^10.9.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
@@ -43,6 +43,7 @@
     "nx": "^16"
   },
   "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.153",
     "aws-cdk-lib": "^2.91.0",
     "cdk-nag": "^2.27.99",
     "constructs": "^10.2.69"
