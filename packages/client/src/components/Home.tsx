@@ -57,7 +57,13 @@ export function Home(props: HomeProps) {
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="secondary">
+            <Button
+              variant="contained"
+              color="secondary"
+              href="https://github.com/reinybo/journey-jigsaw"
+              target="_blank" // opens the link in a new tab
+              rel="noopener noreferrer" // Security feature for opening links in new tabs
+            >
               Check us out on GitHub!
             </Button>
           </Grid>
