@@ -16,6 +16,7 @@ const FullScreenBackground = styled('div')({
   backgroundImage: `url(${bannerImage})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center 58px',
+  overflow: 'clip',
   position: 'absolute', // Position it absolutely so it's behind all other content
   top: 0,
   left: 0,
