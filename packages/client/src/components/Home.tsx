@@ -1,4 +1,7 @@
-import { Typography, Grid, Button, Paper, Box } from '@mui/material';
+import { Typography, Grid, Button, Box } from '@mui/material';
+import { styled } from '@mui/system';
+const bannerImage = process.env.PUBLIC_URL + '/home-background.png';
+
 
 class HomeProps {
   loginUrl: string;
@@ -7,93 +10,59 @@ class HomeProps {
   }
 }
 
+const FullScreenBackground = styled('div')({
+  height: '100vh', // Full screen height
+  width: '100vw', // Full screen width
+  backgroundImage: `url(${bannerImage})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center 58px',
+  position: 'absolute', // Position it absolutely so it's behind all other content
+  top: 0,
+  left: 0,
+  zIndex: -1, // Ensure it's behind all other content
+});
+
+const CenteredContent = styled(Box)({
+  'height': '100vh', // Full screen height
+  'display': 'flex',
+  'flexDirection': 'column',
+  'justifyContent': 'center',
+  'alignItems': 'center',
+  'textAlign': 'center', // Center text alignment
+  'color': 'white',
+  'zIndex': 1, // Ensure the content is above the background
+  'position': 'relative', // Position relative to the FullScreenBackground
+  'padding': '0 20px', // Add some padding on the sides
+  '& > *': { // Target all direct children
+    maxWidth: '600px', // Set a max width for the text to make it more compressed
+    width: '100%', // Make the width up to 100% of the parent container
+  },
+});
+
 export function Home(props: HomeProps) {
   return (
-    <Box>
-      <Paper
-        sx={{
-          height: '500px',
-          width: '100%',
-          overflow: 'hidden',
-        }}
-      >
-        <Grid container>
-          <Grid
-            item
-            xs={6}
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center', // This centers the content vertically
-              paddingLeft: 10,
-              paddingRight: 10,
-              height: '500px',
-            }}
-          >
-            <Typography
-              variant="h3"
-              gutterBottom
-              sx = {{
-                fontWeight: 'bold',
-              }}
-            >
-                Journey Jigsaw
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-                Journey Jigsaw is <b>the</b> best place to discover hidden jems & plan your upcoming vacation as a group!
-                Whether you're an experienced trip planner or are just getting started, you can join our inclusive
-                community to get lots of inspirations!
-            </Typography>
-            <Grid
-              container
-              spacing={2}
-              sx={{ paddingTop: 2 }}
-            >
-              <Grid item>
-                <Button variant="contained" href={props.loginUrl} color="primary">
-                    Log in or sign up
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="secondary">
-                    Check us out on GitHub!
-                </Button>
-              </Grid>
-            </Grid>
+    <>
+      <FullScreenBackground />
+      <CenteredContent>
+        <Typography variant="h2" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)' }}>
+          Journey Jigsaw
+        </Typography>
+        <Typography variant="h4" gutterBottom sx={{ textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)' }}>
+          Plan your group vacations & discover hidden gems across the globe!
+        </Typography>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item>
+            <Button variant="contained" href={props.loginUrl} color="primary">
+              Log in or sign up
+            </Button>
           </Grid>
-          <Grid
-            item
-            xs={6}
-            sx={{
-              '& img': {
-                height: '100%',
-                width: 'auto',
-              },
-            }}
-          >
-            <Box
-              component="img"
-              src="banner-image.png"
-              alt="Your Description"
-              sx={{
-                height: '500px',
-                objectFit: 'contain',
-                maxWidth: '100%',
-                maxHeight: '100%',
-              }}
-            />
+          <Grid item>
+            <Button variant="contained" color="secondary">
+              Check us out on GitHub!
+            </Button>
           </Grid>
         </Grid>
-      </Paper>
-      <Typography
-        align="center"
-        variant="body1"
-        sx={{
-          padding: '50px',
-        }}>
-            We should write some more content here, which will intice the user
-            to sign up.
-      </Typography>
-    </Box>
+      </CenteredContent>
+    </>
   );
 }
