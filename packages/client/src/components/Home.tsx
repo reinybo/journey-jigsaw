@@ -48,7 +48,7 @@ export function Home(props: HomeProps) {
         <Typography variant="h2" gutterBottom sx={{ fontWeight: 'bold', textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)' }}>
           Journey Jigsaw
         </Typography>
-        <Typography variant="h4" gutterBottom sx={{ textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)' }}>
+        <Typography variant="h5" gutterBottom sx={{ textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)' }}>
           Plan your group vacations & discover hidden gems across the globe!
         </Typography>
         <Grid container spacing={2} justifyContent="center">
