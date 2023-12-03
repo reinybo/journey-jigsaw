@@ -14,6 +14,7 @@ import { Create } from './components/Create';
 import { Feed } from './components/Feed';
 import { Home } from './components/Home';
 import { IdTokenPayload } from './types/IdTokenPayload';
+import CreateItinerary from './components/CreateItinerary';
 
 const theme = createTheme({
   palette: {
@@ -25,7 +26,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Poppins", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Poppins", "Verdana", "Helvetica", sans-serif',
   },
 });
 
@@ -112,6 +113,7 @@ function App() {
           <Routes>
             <Route path="/create" element={<Create />} />
             <Route path="/feed" element={<Feed />} />
+            <Route path="/create-itinerary" element={isLoggedIn ? <CreateItinerary /> : <Home loginUrl={hrefForHostedUI} />} />
             <Route path="/" element={isLoggedIn ? <Feed /> : <Home loginUrl={hrefForHostedUI} />} />
           </Routes>
         </div>
