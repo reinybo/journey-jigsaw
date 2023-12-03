@@ -1,4 +1,5 @@
-import { Typography, Box, Paper } from '@mui/material';
+import { Typography, Box, Paper, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { Post } from '../types/Post';
 
 export function Feed() {
@@ -7,11 +8,27 @@ export function Feed() {
     new Post(1, 'I would recommend this place in Italy', 'Here is why'),
   ];
 
+  const navigate = useNavigate();
+
+  const handleCreateItinerary = () => {
+    navigate('/create-itinerary');
+  };
+
   return (
     <Box
       sx ={{
         padding: '5%',
-      }}>
+      }}
+    >
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleCreateItinerary}
+        sx={{ marginBottom: '2rem' }}
+      >
+        Create New Itinerary
+      </Button>
+
       {posts.map( post => (
         <Paper
           elevation={5}
