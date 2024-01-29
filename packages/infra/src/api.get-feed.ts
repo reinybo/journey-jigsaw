@@ -1,4 +1,4 @@
-import { getFeedHandler } from 'api-typescript-runtime';
+import { getFeedHandler, Moment } from 'api-typescript-runtime';
 import { DynamoDB } from 'aws-sdk';
 
 export const handler = getFeedHandler( async ({ input }) => {
@@ -13,7 +13,7 @@ export const handler = getFeedHandler( async ({ input }) => {
 
   const queryParams = {
     TableName: momentsTableName,
-    IndexName: 'ChronologicalIndex', // Name of your Global Secondary Index
+    IndexName: 'ChronologicalIndex',
     KeyConditionExpression: 'dpk = :dv',
     ExpressionAttributeValues: {
       ':dv': 'all_moments',
@@ -27,8 +27,11 @@ export const handler = getFeedHandler( async ({ input }) => {
 
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://www.journey-jigsaw.com',
+    },
     body: {
-      moments: result.Items,
+      moments: result.Items as Moment[],
       nextToken: JSON.stringify(result.LastEvaluatedKey),
     },
   };

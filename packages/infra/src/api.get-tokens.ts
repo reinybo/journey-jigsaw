@@ -59,14 +59,13 @@ export const handler = getTokensFromAuthorizationCodeHandler( async ({ input }) 
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': 'https://www.journey-jigsaw.com',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'GET',
         },
         body: {
           accessToken: accessToken,
           idToken: idToken,
           refreshToken: refreshToken,
-          expiresAt: expiresAt,
+          // TODO: parsing as an int to address compiler warning. Change Smithy model so `expiresAt` is a string.
+          expiresAt: parseInt(expiresAt),
         },
       };
     } else {
@@ -74,8 +73,6 @@ export const handler = getTokensFromAuthorizationCodeHandler( async ({ input }) 
         statusCode: 404,
         headers: {
           'Access-Control-Allow-Origin': 'https://www.journey-jigsaw.com',
-          'Access-Control-Allow-Headers': 'Content-Type',
-          'Access-Control-Allow-Methods': 'GET',
         },
         body: {
           message: 'Some or all token information was missing in the response from Google',
@@ -87,8 +84,6 @@ export const handler = getTokensFromAuthorizationCodeHandler( async ({ input }) 
       statusCode: 500,
       headers: {
         'Access-Control-Allow-Origin': 'https://www.journey-jigsaw.com',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET',
       },
       body: {
         message: 'An unexpected error occurred',

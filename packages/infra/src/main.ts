@@ -2,8 +2,8 @@ import { App, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { JigsawJourneyApi } from './api';
 import { AuthenticationComponent } from './authn-component';
-import { StaticSite } from './static-site';
 import { MomentsTable } from './db';
+import { StaticSite } from './static-site';
 
 
 export class MyStack extends Stack {
@@ -19,8 +19,10 @@ export class MyStack extends Stack {
       googleClientId: '886329708918-c0fjeke99kj5mr5rcm8fo659v6i5is26.apps.googleusercontent.com',
     });
 
+    const domainName = 'journey-jigsaw.com';
+
     new StaticSite(this, 'StaticSite', {
-      domainName: 'journey-jigsaw.com',
+      domainName: domainName,
       siteSubDomain: 'www',
     });
 
@@ -32,6 +34,8 @@ export class MyStack extends Stack {
       redirectUri: redirectUri,
       cognitoUserPool: authnComponent.cognitoUserPool,
       momentsTable: momentsTable,
+      apiSubDomain: 'api',
+      domainName: domainName,
     });
 
   }
@@ -39,7 +43,7 @@ export class MyStack extends Stack {
 
 // For development, use account/region from cdk cli
 const devEnv = {
-  account: process.env.CDK_DEFAULT_ACCOUNT,
+  account: '723035846152',
   region: 'us-east-1',
 };
 

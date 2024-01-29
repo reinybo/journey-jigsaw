@@ -30,13 +30,22 @@ const theme = createTheme({
   },
 });
 
+const apiConfig = new Configuration({
+  basePath: 'https://api.journey-jigsaw.com',
+  headers: {
+    'Authorization': localStorage.getItem('idToken') as string
+  }
+});
+
+export const api = new DefaultApi(apiConfig);
+
+/*
+ * `publicApi` can be used to access APIs which do not accept the `Authorization` header
+ * (since they do not have an authorizer). If you try to submit an idToken to these
+ * endpoints, you'll receive a CORS violation.
+ */
+
 function App() {
-
-  const apiConfig = new Configuration({
-    basePath: 'https://v6usx7oyj0.execute-api.us-east-1.amazonaws.com/prod',
-  });
-
-  const api = new DefaultApi(apiConfig);
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>('');
