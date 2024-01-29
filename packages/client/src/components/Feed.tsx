@@ -1,17 +1,32 @@
+/* eslint-disable */
+
 import { Typography, Box, Paper, Button } from '@mui/material';
+import { Moment } from 'api-typescript-runtime';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Post } from '../types/Post';
+import { api } from '../App';
 
 export function Feed() {
-  const posts: Post[] = [
-    new Post(1, 'Let me tell you about this cool place', 'Here is what I did'),
-    new Post(1, 'I would recommend this place in Italy', 'Here is why'),
-  ];
+
+  const [moments, setMoments] = useState<Moment[]>([]);
+  useEffect(() => {
+    const fetchMoments = async () => {
+      const response = await api.getFeed();
+      setMoments(response.moments);
+      console.log(response.nextToken);
+    };
+
+    fetchMoments();
+  }, []);
 
   const navigate = useNavigate();
 
   const handleCreateItinerary = () => {
     navigate('/create-itinerary');
+  };
+
+  const handleCreateMoment = () => {
+    navigate('/create');
   };
 
   return (
@@ -29,7 +44,16 @@ export function Feed() {
         Create New Itinerary
       </Button>
 
-      {posts.map( post => (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleCreateMoment}
+        sx={{ marginBottom: '2rem' }}
+      >
+        Create New Moment
+      </Button>
+
+      {moments.map( moment => (
         <Paper
           elevation={5}
           style={{
@@ -42,10 +66,10 @@ export function Feed() {
               fontWeight: 'bold',
             }}
           >
-            { post.title }
+            { moment.title }
           </Typography>
           <Typography>
-            { post.content }
+            { moment.body }
           </Typography>
         </Paper>
       ))}

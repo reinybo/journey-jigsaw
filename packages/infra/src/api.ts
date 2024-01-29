@@ -1,9 +1,13 @@
 import { Authorizers, Integrations } from '@aws-prototyping-sdk/type-safe-api';
 import { Api } from 'api-typescript-infra';
-import { Stack } from 'aws-cdk-lib';
+import { aws_route53_targets, Stack } from 'aws-cdk-lib';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import { Cors } from 'aws-cdk-lib/aws-apigateway';
+import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import { IUserPool } from 'aws-cdk-lib/aws-cognito';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import * as route53 from 'aws-cdk-lib/aws-route53';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 interface JigsawJourneyApiProps {
@@ -12,6 +16,8 @@ interface JigsawJourneyApiProps {
   redirectUri: string;
   cognitoUserPool: IUserPool;
   momentsTable: Table;
+  domainName: string;
+  apiSubDomain: string;
 }
 
 export class JigsawJourneyApi extends Api {
@@ -68,6 +74,18 @@ export class JigsawJourneyApi extends Api {
       authorizerId: 'JourneyJigsawCognitoAuthorizer',
     });
 
+
+    // TLS certificate
+    const zone = route53.HostedZone.fromLookup(
+      scope,
+      'Zone',
+      { domainName: props.domainName },
+    );
+    const apiCertificate = new acm.Certificate(scope, 'ApiCertificate', {
+      domainName: props.apiSubDomain + '.' + props.domainName,
+      validation: acm.CertificateValidation.fromDns(zone),
+    });
+
     super(scope, id, {
       integrations: {
         getTokensFromAuthorizationCode: {
@@ -87,7 +105,30 @@ export class JigsawJourneyApi extends Api {
           authorizer: cognitoAuthorizer,
         },
       },
+      corsOptions: {
+        allowOrigins: ['https://www.journey-jigsaw.com'],
+        allowMethods: Cors.ALL_METHODS,
+        allowHeaders: Cors.DEFAULT_HEADERS,
+        allowCredentials: true,
+      },
+      domainName: {
+        domainName: props.apiSubDomain + '.' + props.domainName,
+        certificate: apiCertificate,
+        securityPolicy: apigateway.SecurityPolicy.TLS_1_2,
+      },
     });
+
+    new route53.ARecord(
+      scope,
+      'ApiAliasRecord',
+      {
+        target: route53.RecordTarget.fromAlias(
+          new aws_route53_targets.ApiGateway(this.api),
+        ),
+        zone: zone,
+        recordName: props.apiSubDomain + '.' + props.domainName,
+      },
+    );
   }
 
 }

@@ -24,8 +24,11 @@ export const handler = postMomentHandler( async ({ input }) => {
 
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://www.journey-jigsaw.com',
+    },
     body: {
-      message: 'Successfully uploaded a momemnt',
+      message: 'Successfully uploaded a moment',
     },
   };
 });

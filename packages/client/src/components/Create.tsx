@@ -1,14 +1,26 @@
 import { Button, TextField, Container, Typography } from '@mui/material';
 import { useState } from 'react';
+import { api } from '../App';
 
 export function Create() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Handle the form data here, e.g., make an API call
     console.log('Title:', title);
     console.log('Body:', body);
+    await api.postMoment({
+      title: title,
+      body: body,
+    }).then(response => {
+      alert('Submitted Successfully');
+      console.log(response);
+    }).catch(error => {
+      alert(`There was an error ${error}`);
+      console.log(error);
+    });
+
   };
 
   return (
