@@ -1,5 +1,5 @@
+import styled from '@emotion/styled';
 import { Typography, Grid, Button, Box } from '@mui/material';
-import { styled } from '@mui/system';
 const bannerImage = process.env.PUBLIC_URL + '/home-background.png';
 
 
